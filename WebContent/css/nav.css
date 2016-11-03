@@ -1,0 +1,41 @@
+@charset "utf-8";
+#logo {
+	text-align: center;
+	background: #0160D3;
+}
+	
+#nav {
+	background: #D9EBF5;
+}
+
+#nav ul {
+	overflow: hidden;
+	width: auto;
+	height: 40px;
+	background: #09C;
+	text-align: center;
+}
+
+#nav ul li {
+	margin-left: auto;
+	margin-right: auto;
+	display: inline-block;
+	max-width: 30%;
+}
+
+#nav ul li a {
+	width: 300px;
+	height: 40px;
+	line-height: 40px;
+	background: #09C;
+	color: #FFF;
+	font-size: 18px;
+	display: block;
+	text-align: center;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	text-decoration: none;
+}
+
+#nav ul li a:hover {
+	background: #069;
+}

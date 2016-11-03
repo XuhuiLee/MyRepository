@@ -1,0 +1,228 @@
+@charset "utf-8";
+body {
+	margin: 0;
+	padding: 0;
+	background: #DDD;
+}
+
+.main_container {
+	text-align: center;
+	margin: 0 auto 0 auto;
+	max-width: 70%;
+	width: 950px;
+	height: 700px;
+	background: #FFF;
+	border: 1px solid #BBB;
+	display: block;
+}
+
+.bar {
+	background: rgb(252,252,252);
+	display: block;
+	float: left;
+	width: 200px;
+	height: 700px;
+}
+
+.info {
+	display: block;
+}
+
+.info_icon {
+	margin: 20px auto 0 auto;
+	display: block;
+}
+
+.info_icon img {
+    border-radius: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border: 1px solid #AAA;
+	
+}
+
+.info_name {
+	margin: 5px auto 20px auto;
+	display: block;
+	color: #333;
+}
+
+.button_group {
+	margin: 0 auto 0 auto;
+	display: block;
+}
+
+.button_item {
+	margin: 0;
+	height: 40px;
+	display: block;
+	font-size: 16px;
+	width: 200px;
+	border-top: 1px solid #333;
+	border-bottom: 1px solid #333;
+	border: #333;
+	background: rgb(252,252,252);
+	cursor: pointer;
+}
+
+.button_item:hover {
+	background: rgb(240,240,240);
+}
+
+.inner_frame {
+	height: 600px;
+	width: 700px;
+	margin: 0;
+	display: block;
+	float: left;
+}
+
+
+<!-- if -->
+.if {
+	text-align: center;
+	display: block;
+}
+
+.if#infoform {
+	margin-top: 8%;
+}
+
+.if#iconform {
+	margin-top: 8%;
+}
+
+.if#safeform {
+	margin-top: 8%;
+}
+
+.container {
+	display: block;
+	margin-left: 7%;
+	margin-top: 20px;
+	max-width: 700px;
+	width: 700px;
+	text-align: left;
+}
+
+.container#save button {
+	display: block;
+	width: 100px;
+	height: 35px;
+	margin-left: auto;
+	margin-right: auto;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	background: #0AE;
+	color: #FFF;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.text {
+	display: inline-block;
+	width: 70px;
+	vertical-align: top;
+	font-family: Verdana, Geneva, sans-serif;
+}
+
+.input {
+	display: inline-block;
+	width: 500px;
+	font-family: Verdana, Geneva, sans-serif;
+}
+
+.errorMessage {
+	margin-top: 3px;
+	margin-left: 18%;
+	color: #F00;
+	width: 280px;
+	padding: 0 10px 0 10px;
+	text-align: left;
+	font-size: 12px;
+	font-family: Verdana, Geneva, sans-serif;
+}
+
+<!-- info -->
+#infoform .text#sex {
+	display: inline-block;
+}
+
+#infoform .input#sign {
+	height: 80px;
+}
+
+#infoform .button_group {
+	display: inline-block;
+}
+
+#infoform .button_group input {
+	width: 35px;
+	height: 30px;
+	color: #FFF;
+	background: #aaa;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+<!-- icon -->
+#iconform {
+	text-align: center;
+}
+
+#iconform .if {
+	text-align: center;
+}
+
+#iconform .container#select img {
+	border: 1px solid #AAA;
+}
+
+#iconform .container#select {
+	margin-top: 5px;
+	text-align: center;
+	margin: 5px auto auto auto;
+}
+
+#iconform .errorMessage#icon {
+	text-align: center;
+	margin: 5px auto 5px auto;
+}
+
+table.if {
+	margin: 5px 0 auto 0;
+	width: 700px;
+	text-align: center;
+}
+
+#iconform input#save {
+	display: block;
+	width: 100px;
+	height: 35px;
+	margin-left: auto;
+	margin-right: auto;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	background: #0AE;
+	color: #FFF;
+	font-size: 14px;
+	cursor: pointer;
+	text-align: center;
+}
+
+<!-- safe -->
+#safeform .container#new {
+	margin-top: 15px;
+}
+
+#safeform .container#confirm {
+	margin-top: 15px;
+}
+
+#safeform .text {
+	width: 90px;
+}

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+	
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close"
+		p:driverClass="com.mysql.jdbc.Driver"
+		p:jdbcUrl="jdbc:mysql://localhost/cat_db?useUnicode=true&amp;characterEncoding=utf8"
+		p:user="root"
+		p:password=""
+		p:maxPoolSize="100"
+		p:minPoolSize="2"
+		p:initialPoolSize="2"
+		p:maxIdleTime="30" />
+	
+	<bean id="sessionFactory"
+		class="org.springframework.com.hibernate4.LocalSessionFactoryBean"
+		p:dataSource-ref="dataSource">
+		
+		<property name="anotatedClasses">
+			<list>
+				<value>com.createarttechnology.domain.UserInfo</value>
+				<value>com.createarttechnology.domain.UserAccount</value>
+				<value>com.createarttechnology.domain.ArticleContent</value>
+				<value>com.createarttechnology.domain.ArticleComment</value>
+				<value>com.createarttechnology.domain.ArticleThumb</value>
+			</list>
+		</property>
+		
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+		
+	</bean>
+	
+	<!-- DaoImpl -->
+	<bean id="baseDao" class="com.createarttechnology.dao.impl.BaseDaoImpl" />
+	<bean id="acmDao" class="com.createarttechnology.dao.impl.ArticleCommentDaoImpl" lazy-init="true" >
+		<property name="base" ref="baseDao" />
+	</bean>
+	<bean id="actDao" class="com.createarttechnology.dao.impl.ArticleContentDaoImpl" >
+		<property name="base" ref="baseDao" />
+	</bean>
+	<bean id="atDao" class="com.createarttechnology.dao.impl.ArticleThumbDaoImpl" >
+		<property name="base" ref="baseDao" />
+	</bean>
+	<bean id="uaDao" class="com.createarttechnology.dao.impl.UserAccountDaoImpl" >
+		<property name="base" ref="baseDao" />
+	</bean>
+	<bean id="uiDao" class="com.createarttechnology.dao.impl.UserInfoDaoImpl" >
+		<property name="base" ref="baseDao" />
+	</bean>
+	
+	<!-- Action -->
+	<bean id="indexAction" class="com.createarttechnology.action.IndexAction" scope="session">
+		<property name="actDao" ref="actDao" />
+		<property name="acmDao" ref="acmDao" />
+		<property name="atDao" ref="atDao" />
+	</bean>
+	<bean id="accountAction" class="com.createarttechnology.action.AccountAction" scope="request">
+		<property name="infoDao" ref="uiDao" />
+		<property name="accountDao" ref="uaDao" />
+	</bean>
+	<bean id="articleAction" class="com.createarttechnology.action.ArticleAction" scope="session">
+		<property name="actDao" ref="actDao" />
+		<property name="acmDao" ref="acmDao" />
+		<property name="atDao" ref="atDao" />
+		<property name="uiDao" ref="uiDao" />
+		<property name="uaDao" ref="uaDao" />
+	</bean>
+	<bean id="commentAction" class="com.createarttechnology.action.CommentAction" scope="request" lazy-init="true">
+		<property name="dao" ref="acmDao" />
+		<property name="uaDao" ref="uaDao" />
+	</bean>
+	<bean id="loginAction" class="com.createarttechnology.action.LoginAction" scope="request">
+		<property name="dao" ref="uiDao" />
+	</bean>
+	<bean id="logoutAction" class="com.createarttechnology.action.LogoutAction" />
+	<bean id="modifyIconAction" class="com.createarttechnology.action.ModifyIconAction" scope="request" lazy-init="true">
+		<property name="dao" ref="uaDao" />
+	</bean>
+	<bean id="modifyInfoAction" class="com.createarttechnology.action.ModifyInfoAction" scope="request" lazy-init="true">
+		<property name="dao" ref="uaDao" />
+	</bean>
+	<bean id="modifySafeAction" class="com.createarttechnology.action.ModifySafeAction" scope="request" lazy-init="true">
+		<property name="accountDao" ref="uaDao" />
+		<property name="infoDao" ref="uiDao" />
+	</bean>
+	<bean id="registAction" class="com.createarttechnology.action.RegistAction" scope="request" lazy-init="true">
+		<property name="uiDao" ref="uiDao" />
+		<property name="uaDao" ref="uaDao" />
+	</bean>
+	<bean id="thumbAction" class="com.createarttechnology.action.ThumbAction" scope="request">
+		<property name="atDao" ref="atDao" />
+	</bean>
+	<bean id="uploadAction" class="com.createarttechnology.action.UploadAction" scope="request">
+		<property name="uaDao" ref="uaDao" />
+	</bean>
+	
+	<!-- Interceptor -->
+	<bean id="alreadyLoginInterceptor" class="com.createarttechnology.interceptor.AlreadyLoginInterceptor" />
+	<bean id="requireLoginInterceptor" class="com.createarttechnology.interceptor.RequireLoginInterceptor" />
+</beans>

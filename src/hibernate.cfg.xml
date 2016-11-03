@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+ <session-factory name="">
+  <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+  <property name="hibernate.connection.url">jdbc:mysql://localhost/cat_db?useUnicode=true&amp;characterEncoding=utf8</property>
+  <property name="hibernate.connection.username">root</property>
+  <property name="hibernate.connection.password"></property>
+  <property name="hibernate.c3p0.max_size">100</property>
+  <property name="hibernate.c3p0.min_size">1</property>
+  <property name="hibernate.c3p0.timeout">100</property>
+  <property name="maxIdleTime">60</property>
+  <property name="hibernate.c3p0.max_statements">100</property>
+  <property name="hibernate.c3p0.idle_test_period">3000</property>
+  <property name="hibernate.c3p0.acquire_increment">2</property>
+  <property name="hibernate.c3p0.validate">true</property>
+  <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
+  <property name="javax.persistence.validation.mode">none</property>
+  <property name="hbm2ddl.auto">update</property>
+  <property name="show_sql">true</property>
+  <property name="hibernate.format_sql">true</property>
+  <mapping class="com.createarttechnology.domain.UserInfo"/>
+  <mapping class="com.createarttechnology.domain.UserAccount"/>
+  <mapping class="com.createarttechnology.domain.ArticleContent"/>
+  <mapping class="com.createarttechnology.domain.ArticleComment"/>
+  <mapping class="com.createarttechnology.domain.ArticleThumb"/>
+ </session-factory>
+</hibernate-configuration>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+
+    <constant name="struts.devMode" value="true" />
+    <constant name="struts.action.extension" value=","/>
+    <constant name="struts.i18n.encoding" value="UTF-8"/>
+
+	<package name="default" namespace="/" extends="struts-default">
+	
+		<interceptors>
+			<interceptor name="alreadyLoginInterceptor" class="alreadyLoginInterceptor" />
+			<interceptor name="requireLoginInterceptor" class="requireLoginInterceptor" />
+		</interceptors>
+		
+	 	<action name="*">
+            <result>/WEB-INF/content/{1}Form.jsp</result>
+        </action>
+        
+        <action name="index" class="indexAction">
+        	<result name="success" >/WEB-INF/content/indexForm.jsp</result>
+        </action>
+        
+        <action name="create" class="indexAction" method="createExecute">
+        	<result name="success" >/WEB-INF/content/indexForm.jsp</result>
+        </action>
+        
+        <action name="art" class="indexAction" method="artExecute">
+        	<result name="success" >/WEB-INF/content/indexForm.jsp</result>
+        </action>
+        
+        <action name="technology" class="indexAction" method="technologyExecute">
+        	<result name="success" >/WEB-INF/content/indexForm.jsp</result>
+        </action>
+        
+        <action name="loginAction" class="loginAction">
+        	<interceptor-ref name="alreadyLoginInterceptor" />
+        	<interceptor-ref name="defaultStack" />
+        	<result name="success" type="redirectAction">message</result>
+        	<result name="login" type="redirectAction">message</result>
+        	<result name="input" >/WEB-INF/content/loginForm.jsp</result>
+        </action>
+        
+        <action name="logoutAction" class="logoutAction">
+        	<interceptor-ref name="requireLoginInterceptor" />
+        	<interceptor-ref name="defaultStack" />
+        	<result name="success" type="redirectAction">message</result>
+        	<result name="login" type="redirectAction">message</result>
+        </action>
+        
+        <action name="registAction" class="registAction">
+        	<interceptor-ref name="alreadyLoginInterceptor" />
+        	<interceptor-ref name="defaultStack" />
+        	<result name="success" type="redirectAction">message</result>
+        	<result name="login" type="redirectAction">message</result>
+        	<result name="input" >/WEB-INF/content/registForm.jsp</result>
+        </action>
+        
+        <action name="account" class="accountAction">
+        	<result name="success">/WEB-INF/content/accountForm.jsp</result>
+        	<result name="error" type="redirectAction">message</result>
+        </action>
+        
+        <action name="modifyInfoAction" class="modifyInfoAction">
+        	<interceptor-ref name="requireLoginInterceptor" />
+        	<interceptor-ref name="defaultStack" />
+        	<result name="success" type="redirectAction">account</result>
+        	<result name="login" type="redirectAction">message</result>
+        </action>
+        
+        <action name="modifyIconAction" class="modifyIconAction">
+        	<interceptor-ref name="requireLoginInterceptor" />
+        	<interceptor-ref name="defaultStack" />
+        	<result name="success" type="redirectAction">account</result>
+        	<result name="login" type="redirectAction">message</result>
+        </action>
+        
+        <action name="modifySafeAction" class="modifySafeAction">
+        	<interceptor-ref name="requireLoginInterceptor" />
+        	<interceptor-ref name="defaultStack" />
+        	<result name="success" type="redirectAction">message</result>
+        	<result name="login" type="redirectAction">message</result>
+        	<result name="input" type="redirectAction">message</result>
+        </action>
+        
+        <action name="article" class="articleAction">
+        	<result name="success">/WEB-INF/content/articleForm.jsp</result>
+        	<result name="error" type="redirectAction">message</result>
+        </action>
+        
+        <action name="imageUpload" class="uploadAction">
+        	<interceptor-ref name="requireLoginInterceptor" />
+        	<interceptor-ref name="fileUpload" >
+        		<param name="allowedTypes">image/png,image/gif,image/jpeg,image/bmp,image/jpg</param>
+        		<param name="maximumSize">1024*1024</param>
+        	</interceptor-ref>
+        	<interceptor-ref name="defaultStack" />
+        	<param name="prefix">icon_</param>
+        	<result name="success" type="redirectAction">account</result>
+        	<result name="login" type="redirectAction">message</result>
+        	<result name="input" type="redirectAction">message</result>
+        </action>
+        
+    </package>
+
+	<package name="ajax" namespace="/ajax" extends="json-default">
+	
+		<action name="thumbAction" class="thumbAction">
+			<result type="json">
+				<param name="noCache">true</param>
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+		<action name="commentAction" class="commentAction">
+			<result type="json">
+				<param name="noCache">true</param>
+				<param name="root">result</param>
+			</result>
+		</action>
+		
+	</package>
+	
+</struts>
