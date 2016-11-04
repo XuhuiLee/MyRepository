@@ -3,11 +3,7 @@ package com.createarttechnology.dao;
 import com.createarttechnology.domain.UserInfo;
 import com.opensymphony.xwork2.ActionContext;
 
-public interface IUserInfoDao {
-	boolean saveUserInfo(UserInfo ui);
-	void deleteUserInfo(UserInfo ui);
-	void updateUserInfo(UserInfo ui);
-	UserInfo getUserInfo(Integer id);
+public interface IUserInfoDao extends IBaseDao<UserInfo> {
 	int getUserId(String username);
 	boolean userValid(String username, String password, ActionContext ctx);
 	boolean userExist(UserInfo ui);

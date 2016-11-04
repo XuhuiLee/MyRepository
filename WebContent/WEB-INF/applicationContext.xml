@@ -41,20 +41,20 @@
 	</bean>
 	
 	<!-- DaoImpl -->
-	<bean id="baseDao" class="com.createarttechnology.dao.impl.BaseDaoImpl" />
-	<bean id="acmDao" class="com.createarttechnology.dao.impl.ArticleCommentDaoImpl" lazy-init="true" >
+	<bean id="baseDao" class="com.createarttechnology.dao.impl.BaseDaoImpl" scope="session" />
+	<bean id="acmDao" class="com.createarttechnology.dao.impl.ArticleCommentDaoImpl" lazy-init="true" scope="session" >
 		<property name="base" ref="baseDao" />
 	</bean>
-	<bean id="actDao" class="com.createarttechnology.dao.impl.ArticleContentDaoImpl" >
+	<bean id="actDao" class="com.createarttechnology.dao.impl.ArticleContentDaoImpl" scope="session" >
 		<property name="base" ref="baseDao" />
 	</bean>
-	<bean id="atDao" class="com.createarttechnology.dao.impl.ArticleThumbDaoImpl" >
+	<bean id="atDao" class="com.createarttechnology.dao.impl.ArticleThumbDaoImpl" scope="session" >
 		<property name="base" ref="baseDao" />
 	</bean>
-	<bean id="uaDao" class="com.createarttechnology.dao.impl.UserAccountDaoImpl" >
+	<bean id="uaDao" class="com.createarttechnology.dao.impl.UserAccountDaoImpl" scope="session" >
 		<property name="base" ref="baseDao" />
 	</bean>
-	<bean id="uiDao" class="com.createarttechnology.dao.impl.UserInfoDaoImpl" >
+	<bean id="uiDao" class="com.createarttechnology.dao.impl.UserInfoDaoImpl" scope="session" >
 		<property name="base" ref="baseDao" />
 	</bean>
 	
