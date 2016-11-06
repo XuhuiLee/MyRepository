@@ -15,8 +15,8 @@ public interface IBaseDao<T> {
 	//根据ID删除实体
 	void delete(Class<T> entityType, Serializable id);
 	//获取所有实体
-	List<T> findAll(Class<T> entityType);
+	List<T> getAll(Class<T> entityType);
 	//获取实体总数
-	long findCount(Class<T> entityType);
+	long getCount(Class<T> entityType);
 	
 }

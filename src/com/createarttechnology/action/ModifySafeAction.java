@@ -37,11 +37,11 @@ public class ModifySafeAction extends ActionSupport {
 	public String execute() throws Exception {
 		Map<String, Object> session = ActionContext.getContext().getSession();
         UserInfo ui = (UserInfo) session.get("userinfo");
-        UserAccount ua = accountDao.getUserAccount(ui.getId());
+        UserAccount ua = accountDao.get(UserAccount.class, ui.getId());
     	if(password.length() != 0) {
     		if(infoDao.userValid(ui.getUsername(), password, ActionContext.getContext())) {
         		ui.setPassword(newPassword);
-        		infoDao.updateUserInfo(ui);
+        		infoDao.update(ui);
         		session.put("userinfo", ui);
     		}
     		else {
@@ -53,11 +53,11 @@ public class ModifySafeAction extends ActionSupport {
            	ua = new UserAccount();
            	ua.setId(ui.getId());
            	ua.setEmail(email);
-           	accountDao.saveUserAccount(ua);
+           	accountDao.save(ua);
         }
         else {
            	ua.setEmail(email);
-           	accountDao.updateUserAccount(ua);
+           	accountDao.update(ua);
         }
 		session.put("message", Message.MODIFY_SUCCESS);
     	return SUCCESS;

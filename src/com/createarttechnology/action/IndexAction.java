@@ -106,7 +106,7 @@ public class IndexAction extends ActionSupport {
 		articleInfos_A = new ArrayList<ArticleInfo>();
 		articleInfos_T = new ArrayList<ArticleInfo>();
 		List<Integer> articleIds = actDao.getArticleIds();
-		List<Object[]> results = actDao.getArticleInfos(articleIds);
+		List<Object[]> results = actDao.getArticleInfosById(articleIds);
 		Object[] result;
 		String articleTitle;
 		Integer articleUserId;
@@ -120,8 +120,8 @@ public class IndexAction extends ActionSupport {
 			articleUserId = (Integer)result[1];
 			articleDate = (Timestamp)result[2];
 			articleDirectory = (String)result[3];
-			articleComments = acmDao.getMaxFloor(articleIds.get(i));
-			articleThumbs = atDao.countArticleThumb(articleIds.get(i));
+			articleComments = acmDao.getMaxFloorByArticleId(articleIds.get(i));
+			articleThumbs = atDao.countThumbByArticleId(articleIds.get(i));
 			ArticleInfo articleInfo = new ArticleInfo(articleIds.get(i), articleTitle, articleUserId, articleDate.toString().substring(0, 10), articleDirectory, articleComments, articleThumbs);
 			if(articleDirectory.equals("C") && (type.equals("CAT") || type.equals("C")))
 				articleInfos_C.add(articleInfo);

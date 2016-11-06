@@ -45,11 +45,11 @@ public class RegistAction extends ActionSupport {
     	UserInfo ui = new UserInfo();
     	ui.setUsername(username);
     	ui.setPassword(md5password);
-    	uiDao.saveUserInfo(ui);
-    	int id = uiDao.getUserId(username);
+    	uiDao.save(ui);
+    	int id = uiDao.getUserIdByUsername(username);
     	UserAccount ua = new UserAccount();
     	ua.setId(id);
-    	uaDao.saveUserAccount(ua);
+    	uaDao.save(ua);
 		ActionContext.getContext().getSession().put("message", Message.REGIST_SUCCESS);
     	return SUCCESS;
 	}

@@ -46,20 +46,20 @@ public class AccountAction extends ActionSupport {
 				session.put("message", Message.PAGE_NOT_FOUND);
 				return ERROR;
 			}
-			ui = infoDao.getUserInfo(id);
+			ui = infoDao.get(UserInfo.class, id);
 			if(ui == null) {
 				session.put("message", Message.PAGE_NOT_FOUND);
 				return ERROR;
 			}
-			ua = accountDao.getUserAccount(ui.getId());
+			ua = accountDao.get(UserAccount.class, ui.getId());
 			if(ua == null) {
 				ua = new UserAccount();
 				ua.setId(id);
-				accountDao.saveUserAccount(ua);
+				accountDao.save(ua);
 			}
 		}
 		else {
-			ua = accountDao.getUserAccount(ui.getId());
+			ua = accountDao.get(UserAccount.class, ui.getId());
 		}
 		return SUCCESS;
 	}

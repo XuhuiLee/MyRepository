@@ -51,13 +51,13 @@ public class CommentAction extends ActionSupport {
 		}
         ArticleComment ac = new ArticleComment();
         UserInfo ui = (UserInfo) (session.get("userinfo"));
-        UserAccount ua = uaDao.getUserAccount(ui.getId());
+        UserAccount ua = uaDao.get(UserAccount.class, ui.getId());
         ac.setArticleId(articleId);
         ac.setUserInfo(ui);
         ac.setReplyId(replyId);
         ac.setData(data);
         ac.setUserAccount(ua);
-    	dao.saveArticleComment(ac);
+    	dao.save(ac);
     	setResult("SUCCESS");
     	return SUCCESS;
 	}

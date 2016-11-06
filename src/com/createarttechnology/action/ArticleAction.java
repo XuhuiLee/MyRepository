@@ -70,27 +70,27 @@ public class ArticleAction extends ActionSupport {
 			session.put("message", Message.PAGE_NOT_FOUND);
 			return ERROR;
 		}
-		act = actDao.getArticleContent(id);
+		act = actDao.get(ArticleContent.class, id);
 		if(act == null){
 			session.put("message", Message.PAGE_NOT_FOUND);
 			return ERROR;
 		}
 		name = getNameById(act.getUserId());
-		comments = acmDao.getAllArticleComments(id);
+		comments = acmDao.getAllCommentsByArticleId(id);
 		if(comments != null) {
 			for(ArticleComment c : comments) {
 				c.setName(getNameById(c.getUserInfo().getId()));
 			}
 		}
-		thumb = atDao.countArticleThumb(id);
+		thumb = atDao.countThumbByArticleId(id);
 		return SUCCESS;
 	}
 	
 	private String getNameById(Integer uid) {
-		UserAccount ua = uaDao.getUserAccount(uid);
+		UserAccount ua = uaDao.get(UserAccount.class, uid);
 		String uname;
 		if(ua == null || ua.getName() == null) {
-			UserInfo ui = uiDao.getUserInfo(uid);
+			UserInfo ui = uiDao.get(UserInfo.class, uid);
 			uname = ui.getUsername();
 		}
 		else {

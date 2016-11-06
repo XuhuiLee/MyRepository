@@ -39,13 +39,13 @@ public class ThumbAction extends ActionSupport {
         ArticleThumb at = new ArticleThumb();
         at.setArticleId(articleId);
         at.setUserId(userId);
-        if(atDao.existArticleThumb(at)) {
+        if(atDao.existThumb(at)) {
         	setResult("INPUT");
         	return SUCCESS;
         }
-        Long c = atDao.countArticleThumb(articleId) + 1;
+        Long c = atDao.countThumbByArticleId(articleId) + 1;
     	setResult(c.toString());
-    	atDao.saveArticleThumb(at);
+    	atDao.save(at);
     	return SUCCESS;
 	}
 	

@@ -10,6 +10,7 @@ import org.apache.struts2.ServletActionContext;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.createarttechnology.dao.IUserAccountDao;
+import com.createarttechnology.domain.UserAccount;
 import com.createarttechnology.domain.UserInfo;
 import com.createarttechnology.util.Message;
 
@@ -70,7 +71,7 @@ public class UploadAction extends ActionSupport {
 			fos.write(buffer, 0, len);
 		}
 		fos.close();
-		uaDao.getUserAccount(uid).setIcon(iconPath);
+		uaDao.get(UserAccount.class, uid).setIcon(iconPath);
 		return SUCCESS;
 	}
 	

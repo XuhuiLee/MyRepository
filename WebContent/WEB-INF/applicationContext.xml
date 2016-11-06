@@ -17,10 +17,10 @@
 		p:maxIdleTime="30" />
 	
 	<bean id="sessionFactory"
-		class="org.springframework.com.hibernate4.LocalSessionFactoryBean"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
 		p:dataSource-ref="dataSource">
 		
-		<property name="anotatedClasses">
+		<property name="annotatedClasses">
 			<list>
 				<value>com.createarttechnology.domain.UserInfo</value>
 				<value>com.createarttechnology.domain.UserAccount</value>
@@ -41,21 +41,20 @@
 	</bean>
 	
 	<!-- DaoImpl -->
-	<bean id="baseDao" class="com.createarttechnology.dao.impl.BaseDaoImpl" scope="session" />
 	<bean id="acmDao" class="com.createarttechnology.dao.impl.ArticleCommentDaoImpl" lazy-init="true" scope="session" >
-		<property name="base" ref="baseDao" />
+		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id="actDao" class="com.createarttechnology.dao.impl.ArticleContentDaoImpl" scope="session" >
-		<property name="base" ref="baseDao" />
+		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id="atDao" class="com.createarttechnology.dao.impl.ArticleThumbDaoImpl" scope="session" >
-		<property name="base" ref="baseDao" />
+		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id="uaDao" class="com.createarttechnology.dao.impl.UserAccountDaoImpl" scope="session" >
-		<property name="base" ref="baseDao" />
+		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id="uiDao" class="com.createarttechnology.dao.impl.UserInfoDaoImpl" scope="session" >
-		<property name="base" ref="baseDao" />
+		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
 	<!-- Action -->

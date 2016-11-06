@@ -2,54 +2,26 @@ package com.createarttechnology.dao.impl;
 
 import java.util.List;
 import com.createarttechnology.dao.IArticleThumbDao;
-import com.createarttechnology.dao.IBaseDao;
 import com.createarttechnology.domain.ArticleThumb;
-import com.createarttechnology.domain.UserInfo;
 
-public class ArticleThumbDaoImpl implements IArticleThumbDao {
+public class ArticleThumbDaoImpl extends BaseDaoImpl<ArticleThumb> implements IArticleThumbDao {
 
-	private IBaseDao base;
-	
-	public void setBase(IBaseDao base) {
-		this.base = base;
-	}
-
+	@SuppressWarnings("unchecked")
 	@Override
-	public boolean saveArticleThumb(ArticleThumb at) {
-		boolean success = false;
-		if(base.getSession().save(at) != null) {
-			success = true;
-		}
-		base.closeSession();
-		return success;
-	}
-
-	@Override
-	public void deleteArticleThumb(ArticleThumb at) {
-		base.getSession().delete(at);
-		base.closeSession();
-	}
-
-	@Override
-	public void updateArticleThumb(ArticleThumb at) {
-		base.getSession().update(at);
-		base.closeSession();
-	}
-
-	@Override
-	public boolean existArticleThumb(ArticleThumb at) {
-		List<UserInfo> list = base.query("FROM ArticleThumb WHERE articleId =" + at.getArticleId() + " AND userId = " + at.getUserId());
+	public boolean existThumb(ArticleThumb at) {
+		String hql = "FROM ArticleThumb WHERE articleId = ?0 AND userId = ?1";
+		List<ArticleThumb> list = (List<ArticleThumb>) this.find(hql, at.getArticleId(), at.getUserId());
 		if(list.isEmpty()) return false;
 		else return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Long countArticleThumb(Integer articleId) {
-		List result = base.query("SELECT COUNT(userId) FROM ArticleThumb WHERE articleId =" + articleId);
-		Long count;
-		if(result == null) count = (long) 0;
-		else count = (Long) (result.get(0));
-		return count;
+	public Long countThumbByArticleId(Integer articleId) {
+		String hql = "SELECT COUNT(userId) FROM ArticleThumb WHERE articleId = ?0";
+		List<Long> list = (List<Long>) this.find(hql, articleId);
+		if(list == null) return 0L;
+		else return list.get(0);
 	}
 	
 }

@@ -6,7 +6,7 @@ import javax.persistence.Query;
 import org.hibernate.SessionFactory;
 import com.createarttechnology.dao.IBaseDao;
 
-public class BaseDaoImpl<T> implements IBaseDao {
+public class BaseDaoImpl<T> implements IBaseDao<T> {
 
 	private SessionFactory sessionFactory;
 	
@@ -18,6 +18,7 @@ public class BaseDaoImpl<T> implements IBaseDao {
 	}
 	
 	//加载实体
+	@SuppressWarnings("unchecked")
 	@Override
 	public T get(Class entityType, Serializable id) {
 		return (T) getSessionFactory().getCurrentSession()
@@ -26,21 +27,21 @@ public class BaseDaoImpl<T> implements IBaseDao {
 
 	//保存实体
 	@Override
-	public Serializable save(Object entity) {
+	public Serializable save(T entity) {
 		return getSessionFactory().getCurrentSession()
 			.save(entity);
 	}
 
 	//更新实体
 	@Override
-	public void update(Object entity) {
+	public void update(T entity) {
 		getSessionFactory().getCurrentSession()
 			.saveOrUpdate(entity);
 	}
 
 	//删除实体
 	@Override
-	public void delete(Object entity) {
+	public void delete(T entity) {
 		getSessionFactory().getCurrentSession()
 			.delete(entity);
 	}
@@ -55,14 +56,15 @@ public class BaseDaoImpl<T> implements IBaseDao {
 	}
 
 	//获取所有实体
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<T> findAll(Class entityType) {
-		return find("select en from " + entityType.getSimpleName() + " en");
+	public List<T> getAll(Class entityType) {
+		return (List<T>) find("select en from " + entityType.getSimpleName() + " en");
 	}
 
 	//获取实体总数
 	@Override
-	public long findCount(Class entityType) {
+	public long getCount(Class entityType) {
 		List<?> l = find("select count(*) from " + entityType.getSimpleName());
 		if(l != null && l.size() == 1)
 			return (Long)l.get(0);
@@ -70,20 +72,20 @@ public class BaseDaoImpl<T> implements IBaseDao {
 	}
 
 	//根据HQL语句查询实体
-	protected List<T> find(String hql) {
-		return (List<T>) getSessionFactory().getCurrentSession()
+	protected List<?> find(String hql) {
+		return (List<?>) getSessionFactory().getCurrentSession()
 			.createQuery(hql)
 			.getResultList();
 	}
 	
 	//根据带占位符参数的HQL语句查询实体
-	protected List<T> find(String hql, Object ... params) {
+	protected List<?> find(String hql, Object ... params) {
 		Query query = getSessionFactory().getCurrentSession()
 			.createQuery(hql);
 		for(int i = 0; i < params.length; i++) {
 			query.setParameter(i + "", params[i]);
 		}
-		return (List<T>) query.getResultList();
+		return (List<?>) query.getResultList();
 	}
 	
 }

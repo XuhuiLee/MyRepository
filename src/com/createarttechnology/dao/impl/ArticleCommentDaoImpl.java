@@ -1,60 +1,41 @@
 package com.createarttechnology.dao.impl;
 
+import java.io.Serializable;
 import java.util.List;
 import com.createarttechnology.dao.IArticleCommentDao;
-import com.createarttechnology.dao.IBaseDao;
 import com.createarttechnology.domain.ArticleComment;
 
-public class ArticleCommentDaoImpl implements IArticleCommentDao {
+public class ArticleCommentDaoImpl extends BaseDaoImpl<ArticleComment>  implements IArticleCommentDao {
 	
-	private IBaseDao base;
-	
-	public void setBase(IBaseDao base) {
-		this.base = base;
+	@Override
+	public Serializable save(ArticleComment acm) {
+		Integer new_floor = getMaxFloorByArticleId(acm.getArticleId()) + 1;
+		acm.setFloor(new_floor);
+		return super.save(acm);
 	}
 
 	@Override
-	public boolean saveArticleComment(ArticleComment acm) {
-		boolean success = false;
-		Integer floor = getMaxFloor(acm.getArticleId()) + 1;
-		acm.setFloor(floor);
-		if(base.getSession().save(acm) != null) {
-			success = true;
-		}
-		base.closeSession();
-		return success;
+	public Integer getMaxFloorByArticleId(Integer id) {
+		String hql = "SELECT MAX(floor) FROM ArticleComment WHERE articleId = ?0";
+		List<?> list = this.find(hql, id);
+		if(list == null) return 0;
+		return (Integer) list.get(0);
 	}
 
 	@Override
-	public void deleteArticleComment(ArticleComment acm) {
-		base.getSession().delete(acm);
-		base.closeSession();
+	public Integer countCommentsByArticleId(Integer id) {
+		String hql = "SELECT COUNT(floor) FROM ArticleComment WHERE articleId = ?0";
+		List<?> list = this.find(hql, id);
+		if(list == null) return 0;
+		return (Integer) list.get(0);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public void updateArticleComment(ArticleComment acm) {
-		base.getSession().update(acm);
-		base.closeSession();
-	}
-
-	@Override
-	public ArticleComment getArticleComment(Integer id) {
-		ArticleComment acm = base.getSession().get(ArticleComment.class, id);
-		base.closeSession();
-		return acm;
-	}
-
-	@Override
-	public List<ArticleComment> getAllArticleComments(Integer id) {
-		List<ArticleComment> list = base.query("FROM ArticleComment WHERE articleId = " + id + " ORDER BY floor");
+	public List<ArticleComment> getAllCommentsByArticleId(Integer id) {
+		String hql = "FROM ArticleComment WHERE articleId = ?0 ORDER BE floor";
+		List<ArticleComment> list = (List<ArticleComment>) this.find(hql, id);
 		return list;
 	}
 
-	@Override
-	public Integer getMaxFloor(Integer id) {
-		Integer count = (Integer) base.unique("SELECT MAX(floor) FROM ArticleComment WHERE articleId = " + id);
-		if(count == null) count = 0;
-		return count;
-	}
-	
 }

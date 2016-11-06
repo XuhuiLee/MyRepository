@@ -40,8 +40,8 @@ public class LoginAction extends ActionSupport {
         boolean valid = dao.userValid(username, password, ActionContext.getContext());
         if(valid) {
     		Map<String, Object> session = ActionContext.getContext().getSession();
-        	Integer id = dao.getUserId(username);
-        	UserInfo ui = dao.getUserInfo(id);
+        	Integer id = dao.getUserIdByUsername(username);
+        	UserInfo ui = dao.get(UserInfo.class, id);
     		CookieManager.set("u_id", id.toString());
     		CookieManager.set("u_username", username);
     		session.put("userinfo", ui);

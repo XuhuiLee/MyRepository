@@ -20,16 +20,16 @@ public class ModifyIconAction extends ActionSupport {
 
 	public String execute() throws Exception {
         UserInfo ui = (UserInfo) ActionContext.getContext().getSession().get("userinfo");
-        UserAccount ua = dao.getUserAccount(ui.getId());
+        UserAccount ua = dao.get(UserAccount.class, ui.getId());
         if(ua == null) {
         	ua = new UserAccount();
         	ua.setId(ui.getId());
         	ua.setIcon(icon);
-        	dao.saveUserAccount(ua);
+        	dao.save(ua);
         }
         else {
         	ua.setIcon(icon);
-        	dao.updateUserAccount(ua);
+        	dao.update(ua);
         }
     	return SUCCESS;
 	}
