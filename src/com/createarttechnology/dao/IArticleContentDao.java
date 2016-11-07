@@ -7,6 +7,6 @@ public interface IArticleContentDao extends IBaseDao<ArticleContent> {
 	//获取所有文章的ID
 	List<Integer> getArticleIds();
 	//根据文章ID获取描述信息
-	List<Object[]> getArticleInfosById(List<Integer> ids);
+	List<Object[]> getArticleInfosById(List<Integer> articleIds);
 	
 }

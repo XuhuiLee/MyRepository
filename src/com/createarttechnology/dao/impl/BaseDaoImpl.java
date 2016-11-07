@@ -64,11 +64,11 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
 
 	//获取实体总数
 	@Override
-	public long getCount(Class entityType) {
+	public Long getCount(Class entityType) {
 		List<?> l = find("select count(*) from " + entityType.getSimpleName());
 		if(l != null && l.size() == 1)
 			return (Long)l.get(0);
-		return 0;
+		return 0L;
 	}
 
 	//根据HQL语句查询实体

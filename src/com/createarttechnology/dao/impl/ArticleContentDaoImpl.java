@@ -17,13 +17,14 @@ public class ArticleContentDaoImpl extends BaseDaoImpl<ArticleContent> implement
 	}
 
 	@Override
-	public List<Object[]> getArticleInfosById(List<Integer> ids) {
+	public List<Object[]> getArticleInfosById(List<Integer> articleIds) {
 		List<Object[]> results = new ArrayList<Object[]>();
 		Object[] result;
 		String hql;
-		for(Integer id : ids) {
+		for(Integer id : articleIds) {
 			hql = "SELECT title, userId, date, directory1 FROM ArticleContent WHERE articleId = ?0";
 			result = this.find(hql, id).toArray();
+			result = (Object[]) result[0];
 			results.add(result);
 		}
 		return results;

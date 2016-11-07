@@ -116,10 +116,10 @@ public class IndexAction extends ActionSupport {
 		Long articleThumbs;
 		for(int i = 0; i < articleIds.size(); i++) {
 			result = results.get(i);
-			articleTitle = (String)result[0];
-			articleUserId = (Integer)result[1];
-			articleDate = (Timestamp)result[2];
-			articleDirectory = (String)result[3];
+			articleTitle = (String) result[0];
+			articleUserId = (Integer) result[1];
+			articleDate = (Timestamp) result[2];
+			articleDirectory = (String) result[3];
 			articleComments = acmDao.getMaxFloorByArticleId(articleIds.get(i));
 			articleThumbs = atDao.countThumbByArticleId(articleIds.get(i));
 			ArticleInfo articleInfo = new ArticleInfo(articleIds.get(i), articleTitle, articleUserId, articleDate.toString().substring(0, 10), articleDirectory, articleComments, articleThumbs);

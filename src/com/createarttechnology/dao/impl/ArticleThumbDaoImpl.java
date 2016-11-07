@@ -8,9 +8,9 @@ public class ArticleThumbDaoImpl extends BaseDaoImpl<ArticleThumb> implements IA
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean existThumb(ArticleThumb at) {
+	public Boolean existThumb(ArticleThumb articleThumb) {
 		String hql = "FROM ArticleThumb WHERE articleId = ?0 AND userId = ?1";
-		List<ArticleThumb> list = (List<ArticleThumb>) this.find(hql, at.getArticleId(), at.getUserId());
+		List<ArticleThumb> list = (List<ArticleThumb>) this.find(hql, articleThumb.getArticleId(), articleThumb.getUserId());
 		if(list.isEmpty()) return false;
 		else return true;
 	}

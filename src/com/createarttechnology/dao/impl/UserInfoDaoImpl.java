@@ -10,7 +10,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl<UserInfo> implements IUserInfoD
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public int getUserIdByUsername(String username) {
+	public Integer getUserIdByUsername(String username) {
 		String hql = "FROM UserInfo WHERE username = ?0";
 		List<UserInfo> list = (List<UserInfo>) this.find(hql, username);
 		if(list.isEmpty())return -1;
@@ -19,7 +19,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl<UserInfo> implements IUserInfoD
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean userValid(String username, String password, ActionContext ctx) {
+	public Boolean userValid(String username, String password, ActionContext ctx) {
 		String hql = "FROM UserInfo WHERE username = ?0";
 		List<UserInfo> list = (List<UserInfo>) this.find(hql, username);
 		if(list.isEmpty())return false;
@@ -30,13 +30,13 @@ public class UserInfoDaoImpl extends BaseDaoImpl<UserInfo> implements IUserInfoD
 	}
 
 	@Override
-	public boolean userExist(UserInfo ui) {
-		String username = this.get(UserInfo.class, ui.getId()).getUsername();
-		return ui.getUsername().equals(username);
+	public Boolean userExist(UserInfo userInfo) {
+		String username = this.get(UserInfo.class, userInfo.getId()).getUsername();
+		return userInfo.getUsername().equals(username);
 	}
 
 	@Override
-	public boolean usernameExist(String username) {
+	public Boolean usernameExist(String username) {
 		if(getUserIdByUsername(username) != -1) return true;
 		else return false;
 	}

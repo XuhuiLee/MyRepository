@@ -17,6 +17,6 @@ public interface IBaseDao<T> {
 	//获取所有实体
 	List<T> getAll(Class<T> entityType);
 	//获取实体总数
-	long getCount(Class<T> entityType);
+	Long getCount(Class<T> entityType);
 	
 }
