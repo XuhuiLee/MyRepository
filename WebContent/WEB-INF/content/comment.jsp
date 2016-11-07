@@ -25,7 +25,7 @@
 </s:else>
 </div>
 <s:form class="comment_input">
-	<input type="text" name="articleId" id="articleId" hidden="true" value='<s:property value="id" />' />
+	<input type="text" name="articleId" id="articleId" hidden="true" value='<s:property value="articleId" />' />
 	<div class="comment_re"></div>
 	<textarea name="data" class="comment_textarea"
 		<s:if test="#session.userinfo==null">placeholder="评论需要先登录哦" disabled="disabled"</s:if>

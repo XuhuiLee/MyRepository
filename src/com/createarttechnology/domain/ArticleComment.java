@@ -32,7 +32,7 @@ public class ArticleComment {
 	@Column(name = "r_data", nullable = false, length = 400)
 	private String data;
 	@Column(name = "r_floor", nullable = false)
-	private Integer floor;
+	private Long floor;
 	@Transient
 	private String name;
 	@ManyToOne(targetEntity = UserAccount.class)
@@ -78,10 +78,10 @@ public class ArticleComment {
 	public void setData(String data) {
 		this.data = data;
 	}
-	public Integer getFloor() {
+	public Long getFloor() {
 		return floor;
 	}
-	public void setFloor(Integer floor) {
+	public void setFloor(Long floor) {
 		this.floor = floor;
 	}
 	public String getName() {

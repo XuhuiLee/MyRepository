@@ -4,99 +4,101 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import com.createarttechnology.dao.IArticleCommentDao;
-import com.createarttechnology.dao.IArticleContentDao;
-import com.createarttechnology.dao.IArticleThumbDao;
-import com.createarttechnology.dao.IUserAccountDao;
-import com.createarttechnology.dao.IUserInfoDao;
 import com.createarttechnology.domain.ArticleComment;
 import com.createarttechnology.domain.ArticleContent;
 import com.createarttechnology.domain.UserAccount;
 import com.createarttechnology.domain.UserInfo;
+import com.createarttechnology.service.IArticleCommentService;
+import com.createarttechnology.service.IArticleContentService;
+import com.createarttechnology.service.IArticleThumbService;
+import com.createarttechnology.service.IUserAccountService;
+import com.createarttechnology.service.IUserInfoService;
 import com.createarttechnology.util.Message;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class ArticleAction extends ActionSupport {
 	
-	private Integer id;
-	private ArticleContent act;
+	private static final long serialVersionUID = -3537330573430694357L;
+	
+	private Integer articleId;
+	private ArticleContent articleContent;
 	private String name;
 	private List<ArticleComment> comments;
 	private Long thumb;
-	private IArticleCommentDao acmDao;
-	private IArticleThumbDao atDao;
-	private IArticleContentDao actDao;
-	private IUserInfoDao uiDao;
-	private IUserAccountDao uaDao;
+	private IArticleCommentService articleCommentService;
+	private IArticleThumbService articleThumbService;
+	private IArticleContentService articleContentService;
+	private IUserInfoService userInfoService;
+	private IUserAccountService userAccountService;
 	
-	public Integer getId() {
-		return id;
+	public Integer getArticleId() {
+		return articleId;
 	}
-	public void setId(Integer id) {
-		this.id = id;
+	public void setArticleId(Integer articleId) {
+		this.articleId = articleId;
 	}
-	public void setActDao(IArticleContentDao actDao) {
-		this.actDao = actDao;
-	}
-	public ArticleContent getAct() {
-		return act;
+	public ArticleContent getArticleContent() {
+		return articleContent;
 	}
 	public String getName() {
 		return name;
 	}
-	public Long getThumb() {
-		return thumb;
-	}
-	public void setUiDao(IUserInfoDao uiDao) {
-		this.uiDao = uiDao;
-	}
-	public void setUaDao(IUserAccountDao uaDao) {
-		this.uaDao = uaDao;
-	}
 	public List<ArticleComment> getComments() {
 		return comments;
 	}
-	public void setAcmDao(IArticleCommentDao acmDao) {
-		this.acmDao = acmDao;
+	public Long getThumb() {
+		return thumb;
 	}
-	public void setAtDao(IArticleThumbDao atDao) {
-		this.atDao = atDao;
+	public void setArticleCommentService(IArticleCommentService articleCommentService) {
+		this.articleCommentService = articleCommentService;
 	}
-	
+	public void setArticleThumbService(IArticleThumbService articleThumbService) {
+		this.articleThumbService = articleThumbService;
+	}
+	public void setArticleContentService(IArticleContentService articleContentService) {
+		this.articleContentService = articleContentService;
+	}
+	public void setUserInfoService(IUserInfoService userInfoService) {
+		this.userInfoService = userInfoService;
+	}
+	public void setUserAccountService(IUserAccountService userAccountService) {
+		this.userAccountService = userAccountService;
+	}
+
 	public String execute() throws Exception {
 		Map<String, Object> session = ActionContext.getContext().getSession();
-		if(id == null) {
+		if(articleId == null) {
 			session.put("message", Message.PAGE_NOT_FOUND);
 			return ERROR;
 		}
-		act = actDao.get(ArticleContent.class, id);
-		if(act == null){
+		articleContent = articleContentService.getArticleContent(articleId);
+		if(articleContent == null){
 			session.put("message", Message.PAGE_NOT_FOUND);
 			return ERROR;
 		}
-		name = getNameById(act.getUserId());
-		comments = acmDao.getAllCommentsByArticleId(id);
+		name = getNameById(articleContent.getUserId());
+		comments = articleCommentService.getAllArticleCommentsByArticleId(articleId);
 		if(comments != null) {
 			for(ArticleComment c : comments) {
 				c.setName(getNameById(c.getUserInfo().getId()));
 			}
 		}
-		thumb = atDao.countThumbByArticleId(id);
+		thumb = articleThumbService.countThumb(articleId);
 		return SUCCESS;
 	}
 	
-	private String getNameById(Integer uid) {
-		UserAccount ua = uaDao.get(UserAccount.class, uid);
-		String uname;
-		if(ua == null || ua.getName() == null) {
-			UserInfo ui = uiDao.get(UserInfo.class, uid);
-			uname = ui.getUsername();
+	private String getNameById(Integer userId) {
+		UserAccount user_account = userAccountService.getUserAccount(userId);
+		String user_name;
+		if(user_account == null || user_account.getName() == null) {
+			UserInfo user_info = userInfoService.getUserInfo(userId);
+			user_name = user_info.getUsername();
 		}
 		else {
-			uname = ua.getName();
+			user_name = user_account.getName();
 		}
-		return uname;
+		return user_name;
 	}
 	
 	public String getRandomText() {
@@ -117,10 +119,6 @@ public class ArticleAction extends ActionSupport {
 		};
 		int i = new Random().nextInt(text.length);
 		return text[i];
-	}
-	
-	public int getCommentsLength() {
-		return comments.size();
 	}
 	
 }

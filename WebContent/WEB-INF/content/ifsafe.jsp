@@ -26,7 +26,7 @@
 	<div class="errorMessage" id="confirm"></div>
 	<div class="container" id="email">
 		<div class="text">E-mail：</div>
-		<input class="input" id="email" name="email" placeholder="找回密码时使用" value='<s:property value="ua.email" />' >
+		<input class="input" id="email" name="email" placeholder="找回密码时使用" value='<s:property value="userAccount.email" />' >
 	</div>
 	<div class="errorMessage" id="email"></div>
 	<div class="container" id="save">

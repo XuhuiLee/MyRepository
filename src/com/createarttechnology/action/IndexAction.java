@@ -2,31 +2,32 @@ package com.createarttechnology.action;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
-import com.createarttechnology.dao.IArticleCommentDao;
-import com.createarttechnology.dao.IArticleContentDao;
-import com.createarttechnology.dao.IArticleThumbDao;
+import com.createarttechnology.service.IArticleCommentService;
+import com.createarttechnology.service.IArticleContentService;
+import com.createarttechnology.service.IArticleThumbService;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class IndexAction extends ActionSupport {
 	
-	private IArticleCommentDao acmDao;
-	private IArticleThumbDao atDao;
-	private IArticleContentDao actDao;
+	private static final long serialVersionUID = 8485258351775735099L;
+	
+	private IArticleCommentService articleCommentService;
+	private IArticleThumbService articleThumbService;
+	private IArticleContentService articleContentService;
 	private List<ArticleInfo> articleInfos_C;
 	private List<ArticleInfo> articleInfos_A;
 	private List<ArticleInfo> articleInfos_T;
 	
-	public void setAcmDao(IArticleCommentDao acmDao) {
-		this.acmDao = acmDao;
+	public void setArticleCommentService(IArticleCommentService articleCommentService) {
+		this.articleCommentService = articleCommentService;
 	}
-	public void setAtDao(IArticleThumbDao atDao) {
-		this.atDao = atDao;
+	public void setArticleThumbService(IArticleThumbService articleThumbService) {
+		this.articleThumbService = articleThumbService;
 	}
-	public void setActDao(IArticleContentDao actDao) {
-		this.actDao = actDao;
+	public void setArticleContentService(IArticleContentService articleContentService) {
+		this.articleContentService = articleContentService;
 	}
 	public List<ArticleInfo> getArticleInfos_C() {
 		return articleInfos_C;
@@ -44,7 +45,7 @@ public class IndexAction extends ActionSupport {
 		Integer userId;
 		String date;
 		String directory1;
-		Integer comments;
+		Long comments;
 		Long thumbs;
 		public Integer getId() {
 			return id;
@@ -61,13 +62,13 @@ public class IndexAction extends ActionSupport {
 		public String getDirectory1() {
 			return directory1;
 		}
-		public Integer getComments() {
+		public Long getComments() {
 			return comments;
 		}
 		public Long getThumbs() {
 			return thumbs;
 		}
-		public ArticleInfo(Integer id, String title, Integer userId, String date, String directory1, Integer comments,
+		public ArticleInfo(Integer id, String title, Integer userId, String date, String directory1, Long comments,
 				Long thumbs) {
 			super();
 			this.id = id;
@@ -105,14 +106,14 @@ public class IndexAction extends ActionSupport {
 		articleInfos_C = new ArrayList<ArticleInfo>();
 		articleInfos_A = new ArrayList<ArticleInfo>();
 		articleInfos_T = new ArrayList<ArticleInfo>();
-		List<Integer> articleIds = actDao.getArticleIds();
-		List<Object[]> results = actDao.getArticleInfosById(articleIds);
+		List<Integer> articleIds = articleContentService.getAllArticleId();
+		List<Object[]> results = articleContentService.getArticleInfo(articleIds);
 		Object[] result;
 		String articleTitle;
 		Integer articleUserId;
 		Timestamp articleDate;
 		String articleDirectory;
-		Integer articleComments;
+		Long articleComments;
 		Long articleThumbs;
 		for(int i = 0; i < articleIds.size(); i++) {
 			result = results.get(i);
@@ -120,8 +121,8 @@ public class IndexAction extends ActionSupport {
 			articleUserId = (Integer) result[1];
 			articleDate = (Timestamp) result[2];
 			articleDirectory = (String) result[3];
-			articleComments = acmDao.getMaxFloorByArticleId(articleIds.get(i));
-			articleThumbs = atDao.countThumbByArticleId(articleIds.get(i));
+			articleComments = articleCommentService.countArticleCommentsByArticleId(articleIds.get(i));
+			articleThumbs = articleThumbService.countThumb(articleIds.get(i));
 			ArticleInfo articleInfo = new ArticleInfo(articleIds.get(i), articleTitle, articleUserId, articleDate.toString().substring(0, 10), articleDirectory, articleComments, articleThumbs);
 			if(articleDirectory.equals("C") && (type.equals("CAT") || type.equals("C")))
 				articleInfos_C.add(articleInfo);

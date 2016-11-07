@@ -7,7 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>用户中心</title>
-<s:if test="#session.userinfo==null&&id==null">
+<s:if test="#session.userinfo==null&&userId==null">
 <%
 request.getSession().setAttribute("message", Message.REQUIRE_LOGIN);
 response.sendRedirect("message");
@@ -30,18 +30,18 @@ response.sendRedirect("message");
 	<div class="bar">
     	<!--显示头像和昵称-->
     	<div class="info">
-        	<div class="info_icon"><img name="" src="<s:property value="ua.icon" />" width="130" height="130" alt="" /></div>
+        	<div class="info_icon"><img name="" src="<s:property value="userAccount.icon" />" width="130" height="130" alt="" /></div>
             <div class="info_name">
-		    <s:if test="ua.name!=null"><s:property value="ua.name" /></s:if>
+		    <s:if test="userAccount.name!=null"><s:property value="userAccount.name" /></s:if>
 		    <s:else>用户未填写昵称</s:else>
 		    </div>
-            <div class="hides" hidden="true" ><s:property value="ua.sex" /></div>
+            <div class="hides" hidden="true" ><s:property value="userAccount.sex" /></div>
         </div>
         <div><hr color="#CCCCCC" size="1px"/></div>
         <!--每个子页面的按钮-->
     	<div class="button_group">
 		    <button class="button_item" id="info" onclick="click_info()">用户信息</button>
-		    <s:if test="#session.userinfo!=null&&(id==null||id==#session.userinfo.id)">
+		    <s:if test="#session.userinfo!=null&&(userId==null||userId==#session.userinfo.id)">
         	<button class="button_item" id="icon" onclick="click_icon()">用户头像</button>
         	<button class="button_item" id="safe" onclick="click_safe()">账号安全</button>
         	</s:if>
@@ -52,7 +52,7 @@ response.sendRedirect("message");
     <div class="inner_frame" id="info">
 		<jsp:include page="ifinfo.jsp"/>
     </div>
-    <s:if test="#session.userinfo!=null&&(id==null||id==#session.userinfo.id)">
+    <s:if test="#session.userinfo!=null&&(userId==null||userId==#session.userinfo.id)">
     <div class="inner_frame" id="icon" style="display:none">
 		<jsp:include page="ificon.jsp"/>
     </div>

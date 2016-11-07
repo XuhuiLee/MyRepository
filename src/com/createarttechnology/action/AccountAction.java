@@ -2,65 +2,59 @@ package com.createarttechnology.action;
 
 import java.util.Map;
 
-import com.createarttechnology.dao.IUserAccountDao;
-import com.createarttechnology.dao.IUserInfoDao;
 import com.createarttechnology.domain.UserAccount;
 import com.createarttechnology.domain.UserInfo;
+import com.createarttechnology.service.IUserAccountService;
+import com.createarttechnology.service.IUserInfoService;
 import com.createarttechnology.util.Message;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class AccountAction extends ActionSupport {
 
-	private Integer id;
-	private IUserInfoDao infoDao;
-	private IUserAccountDao accountDao;
-	private UserInfo ui;
-	private UserAccount ua;
-
-	public Integer getId() {
-		return id;
+	private static final long serialVersionUID = 3664494417661602674L;
+	
+	private Integer userId;
+	private UserInfo userInfo;
+	private UserAccount userAccount;
+	private IUserInfoService userInfoService;
+	private IUserAccountService userAccountService;
+	
+	public Integer getUserId() {
+		return userId;
 	}
-	public void setId(Integer id) {
-		this.id = id;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
-	public void setInfoDao(IUserInfoDao infoDao) {
-		this.infoDao = infoDao;
+	public void setUserInfoService(IUserInfoService userInfoService) {
+		this.userInfoService = userInfoService;
 	}
-	public void setAccountDao(IUserAccountDao accountDao) {
-		this.accountDao = accountDao;
+	public void setUserAccountService(IUserAccountService userAccountService) {
+		this.userAccountService = userAccountService;
 	}
-	public String getUsername() {
-		return ui.getUsername();
+	public UserInfo getUserInfo() {
+		return userInfo;
 	}
-	public UserAccount getUa() {
-		return ua;
+	public UserAccount getUserAccount() {
+		return userAccount;
 	}
 	
 	public String execute() throws Exception {
 		Map<String, Object> session = ActionContext.getContext().getSession();
-		ui = (UserInfo) session.get("userinfo");
-		if(ui != null && id == null) id = ui.getId();
-		if(ui == null || ui.getId() != id) {
-			if(id == null) {
+		userInfo = (UserInfo) session.get("userinfo");
+		if(userInfo != null && userId == null) userId = userInfo.getId();
+		if(userInfo == null || userInfo.getId() != userId) {
+			if(userId == null) {
 				session.put("message", Message.PAGE_NOT_FOUND);
 				return ERROR;
 			}
-			ui = infoDao.get(UserInfo.class, id);
-			if(ui == null) {
+			userInfo = userInfoService.getUserInfo(userId);
+			if(userInfo == null) {
 				session.put("message", Message.PAGE_NOT_FOUND);
 				return ERROR;
 			}
-			ua = accountDao.get(UserAccount.class, ui.getId());
-			if(ua == null) {
-				ua = new UserAccount();
-				ua.setId(id);
-				accountDao.save(ua);
-			}
 		}
-		else {
-			ua = accountDao.get(UserAccount.class, ui.getId());
-		}
+		userAccount = userAccountService.getUserAccount(userInfo.getId());
 		return SUCCESS;
 	}
 	

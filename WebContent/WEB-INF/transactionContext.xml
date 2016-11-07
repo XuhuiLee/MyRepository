@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+	
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager"
+		p:sessionFactory-ref="sessionFactory" />
+	<tx:advice id="txAdvice"
+		transaction-manager="transactionManager" >
+		<tx:attributes>
+			<tx:method name="get*" read-only="true"/>
+			<tx:method name="*" isolation="DEFAULT" propagation="REQUIRED" timeout="5" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut expression="bean(*Dao)" id="daoPointcut" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="daoPointcut" />
+	</aop:config>
+	<aop:config>
+		<aop:pointcut expression="bean(*Action)" id="actionPointcut" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="actionPointcut" />
+	</aop:config>
+	
+</beans>

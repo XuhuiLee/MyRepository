@@ -2,22 +2,24 @@ package com.createarttechnology.action;
 
 import java.util.Map;
 
-import com.createarttechnology.dao.IArticleCommentDao;
-import com.createarttechnology.dao.IUserAccountDao;
 import com.createarttechnology.domain.ArticleComment;
 import com.createarttechnology.domain.UserAccount;
 import com.createarttechnology.domain.UserInfo;
+import com.createarttechnology.service.IArticleCommentService;
+import com.createarttechnology.service.IUserAccountService;
 import com.createarttechnology.util.Message;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class CommentAction extends ActionSupport {
 	
+	private static final long serialVersionUID = 4599094726614709895L;
+	
 	private Integer articleId;
 	private Integer replyId;
 	private String data;
-	private IArticleCommentDao dao;
-	private IUserAccountDao uaDao;
+	private IArticleCommentService articleCommentService;
+	private IUserAccountService userAccountService;
 	private String result;
 	
 	public void setArticleId(Integer articleId) {
@@ -29,17 +31,17 @@ public class CommentAction extends ActionSupport {
 	public void setData(String data) {
 		this.data = data;
 	}
-	public void setDao(IArticleCommentDao dao) {
-		this.dao = dao;
-	}
 	public String getResult() {
 		return result;
 	}
 	public void setResult(String result) {
 		this.result = result;
 	}
-	public void setUaDao(IUserAccountDao uaDao) {
-		this.uaDao = uaDao;
+	public void setArticleCommentService(IArticleCommentService articleCommentService) {
+		this.articleCommentService = articleCommentService;
+	}
+	public void setUserAccountService(IUserAccountService userAccountService) {
+		this.userAccountService = userAccountService;
 	}
 	
 	public String execute() throws Exception {
@@ -49,15 +51,15 @@ public class CommentAction extends ActionSupport {
         	setResult("ERROR");
 			return SUCCESS;
 		}
-        ArticleComment ac = new ArticleComment();
-        UserInfo ui = (UserInfo) (session.get("userinfo"));
-        UserAccount ua = uaDao.get(UserAccount.class, ui.getId());
-        ac.setArticleId(articleId);
-        ac.setUserInfo(ui);
-        ac.setReplyId(replyId);
-        ac.setData(data);
-        ac.setUserAccount(ua);
-    	dao.save(ac);
+        ArticleComment article_comment = new ArticleComment();
+        UserInfo user_info = (UserInfo) (session.get("userinfo"));
+        UserAccount ua = userAccountService.getUserAccount(user_info.getId());
+        article_comment.setArticleId(articleId);
+        article_comment.setUserInfo(user_info);
+        article_comment.setReplyId(replyId);
+        article_comment.setData(data);
+        article_comment.setUserAccount(ua);
+    	articleCommentService.saveArticleComment(article_comment);
     	setResult("SUCCESS");
     	return SUCCESS;
 	}

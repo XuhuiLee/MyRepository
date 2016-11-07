@@ -11,10 +11,12 @@ import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 
 public class AlreadyLoginInterceptor extends AbstractInterceptor {
 
+	private static final long serialVersionUID = 8765064101748521165L;
+
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
 		ActionContext ctx = invocation.getInvocationContext();
-		Map session = ctx.getSession();
+		Map<String, Object> session = ctx.getSession();
 		UserInfo ui = (UserInfo)session.get("userinfo");
 		if(ui == null) {
 			return invocation.invoke();

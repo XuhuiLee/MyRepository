@@ -2,8 +2,8 @@ package com.createarttechnology.action;
 
 import java.util.Map;
 
-import com.createarttechnology.dao.IUserInfoDao;
 import com.createarttechnology.domain.UserInfo;
+import com.createarttechnology.service.IUserInfoService;
 import com.createarttechnology.util.CookieManager;
 import com.createarttechnology.util.Message;
 import com.opensymphony.xwork2.ActionContext;
@@ -11,9 +11,11 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class LoginAction extends ActionSupport {
 	
+	private static final long serialVersionUID = 2261806726276317382L;
+	
 	private String username;
 	private String password;
-	private IUserInfoDao dao;
+	private IUserInfoService userInfoService;
 	
 	public String getUsername() {
 		return username;
@@ -27,24 +29,23 @@ public class LoginAction extends ActionSupport {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public void setDao(IUserInfoDao dao) {
-		this.dao = dao;
+	public void setUserInfoService(IUserInfoService userInfoService) {
+		this.userInfoService = userInfoService;
 	}
-	
 	public String execute() throws Exception {
-        boolean exist = dao.usernameExist(username);
-        if(!exist) {
+        if(!userInfoService.usernameExist(username)) {
         	this.addFieldError("username" , "*用户名不存在");
         	return INPUT;
         }
-        boolean valid = dao.userValid(username, password, ActionContext.getContext());
-        if(valid) {
+		String offset = ActionContext.getContext().getSession().get("offset").toString();
+		ActionContext.getContext().getSession().remove("offset");
+        if(userInfoService.validUserInfo(username, password, offset)) {
     		Map<String, Object> session = ActionContext.getContext().getSession();
-        	Integer id = dao.getUserIdByUsername(username);
-        	UserInfo ui = dao.get(UserInfo.class, id);
-    		CookieManager.set("u_id", id.toString());
+        	Integer user_id = userInfoService.getUserIdByUsername(username);
+        	UserInfo user_info = userInfoService.getUserInfo(user_id);
+    		CookieManager.set("u_id", user_id.toString());
     		CookieManager.set("u_username", username);
-    		session.put("userinfo", ui);
+    		session.put("userinfo", user_info);
     		session.put("message", Message.LOGIN_SUCCESS);
         	return SUCCESS;
         }

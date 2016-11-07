@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+	
+	<bean id="articleCommentDao" class="com.createarttechnology.dao.impl.ArticleCommentDaoImpl" lazy-init="true"
+		p:sessionFactory-ref="sessionFactory" />
+		
+	<bean id="articleContentDao" class="com.createarttechnology.dao.impl.ArticleContentDaoImpl"
+		p:sessionFactory-ref="sessionFactory" />
+		
+	<bean id="articleThumbDao" class="com.createarttechnology.dao.impl.ArticleThumbDaoImpl"
+		p:sessionFactory-ref="sessionFactory" />
+		
+	<bean id="userAccountDao" class="com.createarttechnology.dao.impl.UserAccountDaoImpl"
+		p:sessionFactory-ref="sessionFactory" />
+		
+	<bean id="userInfoDao" class="com.createarttechnology.dao.impl.UserInfoDaoImpl"
+		p:sessionFactory-ref="sessionFactory" />
+	
+</beans>

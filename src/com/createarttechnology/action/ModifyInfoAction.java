@@ -1,17 +1,19 @@
 package com.createarttechnology.action;
 
-import com.createarttechnology.dao.IUserAccountDao;
 import com.createarttechnology.domain.UserAccount;
 import com.createarttechnology.domain.UserInfo;
+import com.createarttechnology.service.IUserAccountService;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class ModifyInfoAction extends ActionSupport {
 
+	private static final long serialVersionUID = 8184515948416273134L;
+	
 	private String name;
 	private String sign;
 	private Integer sex;
-	private IUserAccountDao dao;
+	private IUserAccountService userAccountService;
 	
 	public void setName(String name) {
 		this.name = name;
@@ -22,27 +24,17 @@ public class ModifyInfoAction extends ActionSupport {
 	public void setSex(Integer sex) {
 		this.sex = sex;
 	}
-	public void setDao(IUserAccountDao dao) {
-		this.dao = dao;
+	public void setUserAccountService(IUserAccountService userAccountService) {
+		this.userAccountService = userAccountService;
 	}
 	
 	public String execute() throws Exception {
-        UserInfo ui = (UserInfo) ActionContext.getContext().getSession().get("userinfo");
-        UserAccount ua = dao.get(UserAccount.class, ui.getId());
-        if(ua == null) {
-        	ua = new UserAccount();
-        	ua.setId(ui.getId());
-        	ua.setName(name);
-        	ua.setSign(sign);
-        	ua.setSex(sex);
-        	dao.save(ua);
-        }
-        else {
-        	ua.setName(name);
-        	ua.setSign(sign);
-        	ua.setSex(sex);
-        	dao.update(ua);
-        }
+        UserInfo user_info = (UserInfo) ActionContext.getContext().getSession().get("userinfo");
+        UserAccount user_account = userAccountService.getUserAccount(user_info.getId());
+        user_account.setName(name);
+        user_account.setSign(sign);
+        user_account.setSex(sex);
+        userAccountService.updateUserAccount(user_account);
     	return SUCCESS;
 	}
 	

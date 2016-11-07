@@ -5,10 +5,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 	
-	<import resource="connectionBeans.xml"/>
-	<import resource="daoBeans.xml"/>
-	<import resource="actionBeans.xml"/>
-	<import resource="interceptorBeans.xml"/>
-	<import resource="transactionBeans.xml"/>
+	<import resource="connectionContext.xml"/>
+	<import resource="daoContext.xml"/>
+	<import resource="serviceContext.xml"/>
+	<import resource="actionContext.xml"/>
+	<import resource="interceptorContext.xml"/>
+	<import resource="transactionContext.xml"/>
 	
 </beans>

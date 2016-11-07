@@ -1,33 +1,26 @@
 package com.createarttechnology.dao.impl;
 
-import java.io.Serializable;
 import java.util.List;
+
 import com.createarttechnology.dao.IArticleCommentDao;
 import com.createarttechnology.domain.ArticleComment;
 
 public class ArticleCommentDaoImpl extends BaseDaoImpl<ArticleComment>  implements IArticleCommentDao {
 	
 	@Override
-	public Serializable save(ArticleComment articleComment) {
-		Integer new_floor = getMaxFloorByArticleId(articleComment.getArticleId()) + 1;
-		articleComment.setFloor(new_floor);
-		return super.save(articleComment);
-	}
-
-	@Override
-	public Integer getMaxFloorByArticleId(Integer articleId) {
+	public Long getMaxFloorByArticleId(Integer articleId) {
 		String hql = "SELECT MAX(floor) FROM ArticleComment WHERE articleId = ?0";
 		List<?> list = this.find(hql, articleId);
-		if(list == null) return 0;
-		return (Integer) list.get(0);
+		if(list == null) return 0L;
+		return (Long) list.get(0);
 	}
 
 	@Override
-	public Integer countCommentsByArticleId(Integer articleId) {
+	public Long countCommentsByArticleId(Integer articleId) {
 		String hql = "SELECT COUNT(floor) FROM ArticleComment WHERE articleId = ?0";
 		List<?> list = this.find(hql, articleId);
-		if(list == null) return 0;
-		return (Integer) list.get(0);
+		if(list == null) return 0L;
+		return (Long) list.get(0);
 	}
 
 	@SuppressWarnings("unchecked")

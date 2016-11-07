@@ -6,13 +6,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<s:if test="id==null">
+<s:if test="articleId==null">
 <%
 request.getSession().setAttribute("message", Message.PAGE_NOT_FOUND);
 response.sendRedirect("message");
 %>
 </s:if>
-<title><s:property value="act.title" /></title>
+<title><s:property value="articleContent.title" /></title>
 <!-- CSS -->
 <link rel="stylesheet" href="css/article.css" />
 <!-- JS -->
@@ -29,17 +29,17 @@ response.sendRedirect("message");
 <div class="main_container">
 	<!--正文-->
     <div class="content_container">
-        <div class="content_title"><s:property value="act.title" /></div>
-        <div class="content_annotation"><s:property value="act.annotation" /></div>
+        <div class="content_title"><s:property value="articleContent.title" /></div>
+        <div class="content_annotation"><s:property value="articleContent.annotation" /></div>
         <div class="content_information">
             <div class="content_author">
                 <div class="content_author_icon"><img src="img/User/icon.png" width="30" height="30" /></div>
-                <div class="content_author_name"><a href='<s:url action="account"><s:param name="id" value="act.userId" /></s:url>' target="_blank"><s:property value="name" /></a></div>
+                <div class="content_author_name"><a href='<s:url action="account"><s:param name="userId" value="articleContent.userId" /></s:url>' target="_blank"><s:property value="name" /></a></div>
             </div>
-            <div class="content_date"><s:property value="act.date" /></div>
+            <div class="content_date"><s:property value="articleContent.date" /></div>
         	<div class="content_line"><hr /></div>
         </div>
-        <div class="content_data"><s:property value="act.data" escapeHtml="false"/></div>
+        <div class="content_data"><s:property value="articleContent.data" escapeHtml="false"/></div>
         <div class="content_addons">
             <div class="content_thumb">
             	<button class="button_thumb" <s:if test="#session.userinfo==null">disabled="disabled"</s:if>><div id="left"><img src="img/Article/thumb.png" width="27" height="27" /></div><div id="right"><s:property value="thumb" />人觉得很赞</div>

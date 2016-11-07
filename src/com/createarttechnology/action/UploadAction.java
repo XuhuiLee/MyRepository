@@ -7,20 +7,21 @@ import java.util.UUID;
 
 import org.apache.struts2.ServletActionContext;
 
+import com.createarttechnology.domain.UserInfo;
+import com.createarttechnology.service.IUserAccountService;
+import com.createarttechnology.util.Message;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-import com.createarttechnology.dao.IUserAccountDao;
-import com.createarttechnology.domain.UserAccount;
-import com.createarttechnology.domain.UserInfo;
-import com.createarttechnology.util.Message;
 
 public class UploadAction extends ActionSupport {
+	
+	private static final long serialVersionUID = 7399184603316832174L;
 	
 	private File upload;
 	private String uploadContentType;
 	private String uploadFileName;
 	private String prefix;
-	private IUserAccountDao uaDao;
+	private IUserAccountService userAccountService;
 	
 	public File getUpload() {
 		return upload;
@@ -46,10 +47,11 @@ public class UploadAction extends ActionSupport {
 	public void setPrefix(String prefix) {
 		this.prefix = prefix;
 	}
-	public void setUaDao(IUserAccountDao uaDao) {
-		this.uaDao = uaDao;
+	public void setUserAccountService(IUserAccountService userAccountService) {
+		this.userAccountService = userAccountService;
 	}
 	
+	@SuppressWarnings("resource")
 	@Override
 	public String execute() throws Exception {
 		ActionContext ctx = ActionContext.getContext();
@@ -67,11 +69,10 @@ public class UploadAction extends ActionSupport {
 		byte[] buffer = new byte[1024];
 		int len = 0;
 		while((len = fis.read(buffer)) > 0) {
-			
 			fos.write(buffer, 0, len);
 		}
 		fos.close();
-		uaDao.get(UserAccount.class, uid).setIcon(iconPath);
+		userAccountService.getUserAccount(uid).setIcon(iconPath);
 		return SUCCESS;
 	}
 	

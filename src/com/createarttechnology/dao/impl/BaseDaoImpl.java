@@ -18,9 +18,8 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
 	}
 	
 	//加载实体
-	@SuppressWarnings("unchecked")
 	@Override
-	public T get(Class entityType, Serializable id) {
+	public T get(Class<T> entityType, Serializable id) {
 		return (T) getSessionFactory().getCurrentSession()
 			.get(entityType, id);
 	}
@@ -48,7 +47,7 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
 
 	//根据ID删除实体
 	@Override
-	public void delete(Class entityType, Serializable id) {
+	public void delete(Class<T> entityType, Serializable id) {
 		getSessionFactory().getCurrentSession()
 			.createQuery("delete " + entityType.getSimpleName() + " en where en.id = ?0")
 			.setParameter("0", id)
@@ -58,13 +57,13 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
 	//获取所有实体
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<T> getAll(Class entityType) {
+	public List<T> getAll(Class<T> entityType) {
 		return (List<T>) find("select en from " + entityType.getSimpleName() + " en");
 	}
 
 	//获取实体总数
 	@Override
-	public Long getCount(Class entityType) {
+	public Long getCount(Class<T> entityType) {
 		List<?> l = find("select count(*) from " + entityType.getSimpleName());
 		if(l != null && l.size() == 1)
 			return (Long)l.get(0);

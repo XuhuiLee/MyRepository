@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+	
+	<bean id="indexAction" class="com.createarttechnology.action.IndexAction" scope="session"
+		p:articleCommentService-ref="articleCommentService"
+		p:articleThumbService-ref="articleThumbService"
+		p:articleContentService-ref="articleContentService" />
+		
+	<bean id="accountAction" class="com.createarttechnology.action.AccountAction" scope="request"
+		p:userInfoService-ref="userInfoService"
+		p:userAccountService-ref="userAccountService" />
+	
+	<bean id="articleAction" class="com.createarttechnology.action.ArticleAction" scope="session"
+		p:articleContentService-ref="articleContentService"
+		p:articleCommentService-ref="articleCommentService"
+		p:articleThumbService-ref="articleThumbService"
+		p:userInfoService-ref="userInfoService"
+		p:userAccountService-ref="userAccountService" />
+	
+	<bean id="commentAction" class="com.createarttechnology.action.CommentAction" scope="request" lazy-init="true"
+		p:articleCommentService-ref="articleCommentService"
+		p:userAccountService-ref="userAccountService" />
+	
+	<bean id="loginAction" class="com.createarttechnology.action.LoginAction" scope="request"
+		p:userInfoService-ref="userInfoService" />
+	
+	<bean id="logoutAction" class="com.createarttechnology.action.LogoutAction" />
+	
+	<bean id="modifyIconAction" class="com.createarttechnology.action.ModifyIconAction" scope="request" lazy-init="true"
+		p:userAccountService-ref="userAccountService" />
+	
+	<bean id="modifyInfoAction" class="com.createarttechnology.action.ModifyInfoAction" scope="request" lazy-init="true"
+		p:userAccountService-ref="userAccountService" />
+	
+	<bean id="modifySafeAction" class="com.createarttechnology.action.ModifySafeAction" scope="request" lazy-init="true"
+		p:userAccountService-ref="userAccountService"
+		p:userInfoService-ref="userInfoService" />
+	
+	<bean id="registAction" class="com.createarttechnology.action.RegistAction" scope="request" lazy-init="true"
+		p:userInfoService-ref="userInfoService"
+		p:userAccountService-ref="userAccountService" />
+	
+	<bean id="thumbAction" class="com.createarttechnology.action.ThumbAction" scope="request"
+		p:articleThumbService-ref="articleThumbService" />
+	
+	<bean id="uploadAction" class="com.createarttechnology.action.UploadAction" scope="request"
+		p:userAccountService-ref="userAccountService" />
+	
+</beans>
